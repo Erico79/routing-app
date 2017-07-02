@@ -6,7 +6,9 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { CrisisListComponent } from './crisis-list.component';
 import {PageNotFoundComponent} from './not-found.component';
+
 import {AppRoutingModule} from './app-routing.module';
+import {HeroesModule} from './heroes/heroes.module';
 
 
 @NgModule({
@@ -19,6 +21,7 @@ import {AppRoutingModule} from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
+    HeroesModule,
     AppRoutingModule
   ],
   providers: [],
