@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
@@ -13,6 +14,8 @@ import { HeroService } from './hero.service';
         <span class="badge">{{hero.id}}</span> {{hero.name}}
       </li>
     </ul>
+    
+    <button routerLink="/sidekicks">Go to sidekicks</button>
   `,
   styles: [`
     .selected {
@@ -70,10 +73,13 @@ export class HeroListComponent implements OnInit {
   heroes: Hero[];
   selectedHero: Hero;
 
-  constructor(private heroService: HeroService) { }
+  constructor(
+    private service: HeroService,
+    private router: Router
+  ) { }
 
   getHeroes(): void {
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+    this.service.getHeroes().then(heroes => this.heroes = heroes);
   }
 
   ngOnInit(): void {
@@ -81,13 +87,6 @@ export class HeroListComponent implements OnInit {
   }
 
   onSelect(hero: Hero): void {
-    this.selectedHero = hero;
+    this.router.navigate(['/hero', hero.id]);
   }
 }
-
-
-/*
- Copyright 2017 Google Inc. All Rights Reserved.
- Use of this source code is governed by an MIT-style license that
- can be found in the LICENSE file at http://angular.io/license
- */
