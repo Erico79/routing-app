@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { CrisisListComponent } from './crisis-list.component';
-import { HeroListComponent } from './hero-list.component';
 import {PageNotFoundComponent} from './not-found.component';
 import {AppRoutingModule} from './app-routing.module';
 
@@ -14,7 +13,6 @@ import {AppRoutingModule} from './app-routing.module';
   declarations: [
     AppComponent,
     CrisisListComponent,
-    HeroListComponent,
     PageNotFoundComponent
   ],
   imports: [
