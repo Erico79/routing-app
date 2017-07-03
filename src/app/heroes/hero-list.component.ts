@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 
 import { Hero } from './hero';
 import { HeroService } from './hero.service';
+
+import 'rxjs/add/operator/switchMap';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   template: `
     <h2>HEROES</h2>
     <ul class="heroes">
       <li *ngFor="let hero of heroes"
-          [class.selected]="hero === selectedHero"
+          [class.selected]="isSelected(hero)"
           (click)="onSelect(hero)">
         <span class="badge">{{hero.id}}</span> {{hero.name}}
       </li>
@@ -70,23 +73,32 @@ import { HeroService } from './hero.service';
 })
 export class HeroListComponent implements OnInit {
   title = 'Tour of Heroes';
-  heroes: Hero[];
+  heroes: Observable<Hero[]>;
   selectedHero: Hero;
+  private selectedId: number;
 
   constructor(
     private service: HeroService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
-  getHeroes(): void {
-    this.service.getHeroes().then(heroes => this.heroes = heroes);
-  }
+  ngOnInit() {
+    // this.getHeroes();
+    this.heroes = this.route.paramMap
+      .switchMap((params: ParamMap) => {
+        // (+) before `params.get()` turns the string into a number
+        this.selectedId =  +params.get('id');
 
-  ngOnInit(): void {
-    this.getHeroes();
+        return this.service.getHeroes();
+      })
   }
 
   onSelect(hero: Hero): void {
     this.router.navigate(['/hero', hero.id]);
+  }
+
+  isSelected(hero: Hero) {
+    return hero.id === this.selectedId;
   }
 }
